@@ -37,7 +37,7 @@ class TmdbHomeAdapter (
        fun bind(movies: Result) = with(binding){
            Glide.with(itemView.context).load(movies.posterPath)
                    //colocar um imagem enquato não carrega a original
-               .placeholder(ContextCompat.getDrawable(itemView.context, R.drawable.ic_android_black_24dp))
+               .placeholder(R.drawable.ic_android_black_24dp)
                .into(ivTmdbHomePoster)
            tvTmdbName.text=movies.title
        }
