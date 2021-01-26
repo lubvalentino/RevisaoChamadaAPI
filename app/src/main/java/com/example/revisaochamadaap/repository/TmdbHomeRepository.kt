@@ -5,9 +5,9 @@ import com.example.revisaochamadaap.api.ResponseApi
 
 class TmdbHomeRepository {
 
-    suspend fun getTopRated(): ResponseApi {
+    suspend fun getTopRated(pageNumber: Int): ResponseApi {
         return try {
-            val response = ApiService.tmdbApi.movies()
+            val response = ApiService.tmdbApi.movies(pageNumber)
             if (response.isSuccessful){
                 ResponseApi.Success(response.body())
             }else{

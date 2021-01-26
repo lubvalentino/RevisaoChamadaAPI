@@ -8,5 +8,12 @@ class Constants {
         const val API_CONTENT_TYPE_NAME = "Content-Type"
         const val API_CONTENT_TYPE_VALUE = "application/json;charset=utf-8"
         const val BASE_URL_ORIGINAL_IMAGE = "https://image.tmdb.org/t/p/original"
+        const val QUERY_PARAM_LANGUAGE_LABEL = "language"
+        const val QUERY_PARAM_LANGUAGE_VALUE = "pt-BR"
+    }
+
+    object Paging{
+        const val PAGE_SIZE = 20
+        const val FIRST_PAGE = 1
     }
 }

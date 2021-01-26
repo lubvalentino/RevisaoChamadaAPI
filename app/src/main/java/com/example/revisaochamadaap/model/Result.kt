@@ -1,7 +1,11 @@
 package com.example.revisaochamadaap.model
 
+import android.os.Parcelable
+import androidx.recyclerview.widget.DiffUtil
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Result(
     val adult: Boolean,
     //colocar o nome no padrão
@@ -27,4 +31,18 @@ data class Result(
     val voteAverage: Double,
     @SerializedName("vote_count")
     val voteCount: Int
-)
+):Parcelable{
+
+    companion object {
+        var DIFF_CALLBACK: DiffUtil.ItemCallback<Result> = object : DiffUtil.ItemCallback<Result>(){
+            //vai indo um por um e vendo se é o mesmo
+            override fun areContentsTheSame(oldItem: Result, newItem: Result): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areItemsTheSame(oldItem: Result, newItem: Result): Boolean {
+                return oldItem.id == newItem.id
+            }
+        }
+    }
+    }

@@ -5,6 +5,8 @@ import com.example.revisaochamadaap.utils.Constants.Api.API_AUTH_VALUE
 import com.example.revisaochamadaap.utils.Constants.Api.API_CONTENT_TYPE_NAME
 import com.example.revisaochamadaap.utils.Constants.Api.API_CONTENT_TYPE_VALUE
 import com.example.revisaochamadaap.utils.Constants.Api.BASE_URL_TMDB
+import com.example.revisaochamadaap.utils.Constants.Api.QUERY_PARAM_LANGUAGE_LABEL
+import com.example.revisaochamadaap.utils.Constants.Api.QUERY_PARAM_LANGUAGE_VALUE
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -31,6 +33,14 @@ object ApiService {
                     .addHeader(API_AUTH_NAME, API_AUTH_VALUE)
                     .addHeader(API_CONTENT_TYPE_NAME, API_CONTENT_TYPE_VALUE)
                     .build()
+                chain.proceed(newRequest)
+            }
+                //fixar o idioma do app
+            .addInterceptor { chain ->
+                val url = chain.request().url().newBuilder()
+                .addQueryParameter(QUERY_PARAM_LANGUAGE_LABEL,QUERY_PARAM_LANGUAGE_VALUE)
+                .build()
+                val newRequest = chain.request().newBuilder().url(url).build()
                 chain.proceed(newRequest)
             }
         return interceptor.build()

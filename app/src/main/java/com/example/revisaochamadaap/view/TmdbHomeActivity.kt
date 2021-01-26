@@ -13,29 +13,43 @@ class TmdbHomeActivity : AppCompatActivity() {
 
     private lateinit var viewModel: TmdbHomeViewModel
     private lateinit var binding: ActivityTmdbHomeBinding
+    private val tmdbHomeAdapter: TmdbHomeAdapter by lazy {
+        TmdbHomeAdapter{
+            val movieClicked = it
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTmdbHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get(TmdbHomeViewModel::class.java)
-        viewModel.getTopRated()
-        setupObservables()
+        setupRecyclerView()
+        loadContent()
     }
 
-    private fun setupObservables() {
-        viewModel.onResultTopRated.observe(this,{
-            it?.let { topRated ->
-                setupRecyclerView(topRated.results)
-            }
+    private fun loadContent() {
+        viewModel = ViewModelProvider(this).get(TmdbHomeViewModel::class.java)
+//        viewModel.getTopRated()
+        //vai chamar a lista automatica que vai se atualizando
+        viewModel.moviePagedList?.observe(this,{pagedList ->
+            tmdbHomeAdapter.submitList(pagedList)
         })
     }
 
-    private fun setupRecyclerView(movies: List<Result>) {
+//    nao usa no paging
+//    private fun setupObservables() {
+//        viewModel.onResultTopRated.observe(this,{
+//            it?.let { topRated ->
+//                setupRecyclerView(topRated.results)
+//            }
+//        })
+//    }
+
+    private fun setupRecyclerView() {
         binding.rvTmdbHome.apply {
             layoutManager = GridLayoutManager(this@TmdbHomeActivity, 2)
-            adapter = TmdbHomeAdapter(movies)
+            adapter = tmdbHomeAdapter
         }
     }
 }
