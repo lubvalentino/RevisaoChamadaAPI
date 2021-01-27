@@ -1,5 +1,7 @@
 package com.example.revisaochamadaap.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.LivePagedListBuilder
@@ -9,14 +11,18 @@ import com.example.revisaochamadaap.model.Result
 import com.example.revisaochamadaap.paging.TmdbDataSourceFactory
 import com.example.revisaochamadaap.utils.Constants.Paging.PAGE_SIZE
 
-class TmdbHomeViewModel :ViewModel() {
+class TmdbHomeViewModel(
+        application: Application
+) :AndroidViewModel(
+        application
+) {
 
     //atualizado automaticamente
     var moviePagedList: LiveData<PagedList<Result>>? = null
     private var tmdbLiveDataSource: LiveData<PageKeyedDataSource<Int, Result>>? = null
 
     init {
-        val tmdbDataSourceFactory = TmdbDataSourceFactory()
+        val tmdbDataSourceFactory = TmdbDataSourceFactory(application)
 
         tmdbLiveDataSource = tmdbDataSourceFactory.getSearchLiveDataSource()
 
@@ -54,3 +60,4 @@ class TmdbHomeViewModel :ViewModel() {
 //
 //    }
 }
+

@@ -1,7 +1,9 @@
 package com.example.revisaochamadaap.paging
 
+import android.content.Context
 import androidx.paging.PageKeyedDataSource
 import com.example.revisaochamadaap.api.ResponseApi
+import com.example.revisaochamadaap.database.TmdbDatabase
 import com.example.revisaochamadaap.extensions.getFullImagePath
 import com.example.revisaochamadaap.model.Result
 import com.example.revisaochamadaap.model.TopRated
@@ -13,7 +15,9 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 
 //Essa classe será a business
-class TmdbPageKeyedDataSource : PageKeyedDataSource<Int,Result>() {
+class TmdbPageKeyedDataSource (
+    private val context:Context
+        ) : PageKeyedDataSource<Int,Result>() {
 
     private val repository by lazy {
         TmdbHomeRepository()
@@ -31,6 +35,9 @@ class TmdbPageKeyedDataSource : PageKeyedDataSource<Int,Result>() {
                     data.results.forEach {
                         it.posterPath = it.posterPath.getFullImagePath()
                     }
+                    val movieDao = TmdbDatabase.getDatabase(context).movieDao()
+                    movieDao.getAllMovies()
+
                     //onde falo pra apresentar para o usuário
                     callback.onResult(data.results, null, FIRST_PAGE+1)
                 }
@@ -82,3 +89,4 @@ class TmdbPageKeyedDataSource : PageKeyedDataSource<Int,Result>() {
     }
 
 }
+

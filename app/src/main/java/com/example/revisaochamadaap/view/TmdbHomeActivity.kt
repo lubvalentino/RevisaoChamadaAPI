@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.revisaochamadaap.R
 import com.example.revisaochamadaap.databinding.ActivityTmdbHomeBinding
 import com.example.revisaochamadaap.model.Result
 import com.example.revisaochamadaap.viewmodel.TmdbHomeViewModel
@@ -29,7 +28,7 @@ class TmdbHomeActivity : AppCompatActivity() {
     }
 
     private fun loadContent() {
-        viewModel = ViewModelProvider(this).get(TmdbHomeViewModel::class.java)
+        viewModel = ViewModelProvider(this)[TmdbHomeViewModel::class.java]
 //        viewModel.getTopRated()
         //vai chamar a lista automatica que vai se atualizando
         viewModel.moviePagedList?.observe(this,{pagedList ->
